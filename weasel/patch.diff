@@ -1,0 +1,26 @@
+diff --color -Nur linux-6.5.7/fs/dcache.c linux-6.5.7-lkp/fs/dcache.c
+--- linux-6.5.7/fs/dcache.c	2023-10-10 22:03:06.000000000 +0200
++++ linux-6.5.7-lkp/fs/dcache.c	2023-12-14 17:11:17.428471065 +0100
+@@ -97,8 +97,10 @@
+  */
+ 
+ static unsigned int d_hash_shift __read_mostly;
++EXPORT_SYMBOL(d_hash_shift);
+ 
+-static struct hlist_bl_head *dentry_hashtable __read_mostly;
++struct hlist_bl_head *dentry_hashtable __read_mostly;
++EXPORT_SYMBOL_GPL(dentry_hashtable);
+ 
+ static inline struct hlist_bl_head *d_hash(unsigned int hash)
+ {
+
+diff --color -Nur linux-6.5.7/include/linux/dcache.h linux-6.5.7-lkp/include/linux/dcache.h
+--- linux-6.5.7/include/linux/dcache.h	2023-10-10 22:03:06.000000000 +0200
++++ linux-6.5.7-lkp/include/linux/dcache.h	2023-12-14 17:08:33.905115563 +0100
+@@ -599,4 +599,6 @@
+ void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
+ void release_dentry_name_snapshot(struct name_snapshot *);
+ 
++extern struct hlist_bl_head *dentry_hashtable __read_mostly;
++
+ #endif	/* __LINUX_DCACHE_H */
